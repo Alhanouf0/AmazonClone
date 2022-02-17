@@ -66,8 +66,14 @@ class ItemsController < ApplicationController
       @item = Item.find(params[:id])
     end
 
+    def delete_pic_attachment
+      @item = Item.find(params[:id])
+      @item.pic.purge
+      redirect_back(fallback_location: request.referer)
+    end
+
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:name, :price)
+      params.require(:item).permit(:name, :price, :pic)
     end
 end
