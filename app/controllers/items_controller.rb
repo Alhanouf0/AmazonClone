@@ -10,6 +10,12 @@ class ItemsController < ApplicationController
   def show
   end
 
+  def delete_pic_attachment
+    @item = Item.find(params[:id])
+    @item.pic.purge
+    redirect_back(fallback_location: request.referer)
+  end
+
   # GET /items/new
   def new
     @item = Item.new
@@ -26,6 +32,7 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.save
         ItemMailer.with(item: @item).new_item_mail.deliver_later
+        AdminMailer.with(item: @item).new_item_user_mail.deliver_later
 
         format.html { redirect_to item_url(@item), notice: "Item was successfully created." }
         format.json { render :show, status: :created, location: @item }
@@ -67,6 +74,6 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:name, :price)
+      params.require(:item).permit(:name, :price, :pic)
     end
 end
