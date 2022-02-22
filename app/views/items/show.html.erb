@@ -1,10 +1,17 @@
 <p style="color: green"><%= notice %></p>
 
+<% if @item.pic.attached? %>
+<%= image_tag(@item.pic, size: "200x200") %>
+<%end %>
+
 <%= render @item %>
 
 <div>
   <%= link_to "Edit this item", edit_item_path(@item) %> |
   <%= link_to "Back to items", items_path %>
+    <% if @item.pic.attached? %>
+    <%= link_to "Remove picture", delete_pic_attachment_item_path(@item), method: :delete %>
+    <%end %>
 
   <%= button_to "Destroy this item", @item, method: :delete %>
 </div>
