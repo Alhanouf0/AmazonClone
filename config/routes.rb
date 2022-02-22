@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :registereds
   resources :admins
   resources :items do
     member do
@@ -12,4 +13,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  get 'home', to: 'application#home'
+
+  root 'application#home'
 end
