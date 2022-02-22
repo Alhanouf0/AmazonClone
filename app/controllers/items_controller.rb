@@ -10,6 +10,12 @@ class ItemsController < ApplicationController
   def show
   end
 
+  def delete_pic_attachment
+    @item = Item.find(params[:id])
+    @item.pic.purge
+    redirect_back(fallback_location: request.referer)
+  end
+
   # GET /items/new
   def new
     @item = Item.new
@@ -64,12 +70,6 @@ class ItemsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_item
       @item = Item.find(params[:id])
-    end
-
-    def delete_pic_attachment
-      @item = Item.find(params[:id])
-      @item.pic.purge
-      redirect_back(fallback_location: request.referer)
     end
 
     # Only allow a list of trusted parameters through.
